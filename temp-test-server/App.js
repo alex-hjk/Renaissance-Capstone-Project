@@ -35,8 +35,10 @@ const clientAController = new ClientController(clientA)
 const initClientARequest = {
     clientID: 'A',
     masterKey: 123451231n,
-    attributes: TestDataUtil.generateRandomNameAndNumbers(100)
+    // attributes: TestDataUtil.generateRandomNameAndNumbers(100)
+    attributes: [{name: 'collin', number: 1234}]
 }
+
 
 clientAController.initClient(initClientARequest)
 
@@ -50,7 +52,8 @@ const clientBController = new ClientController(clientB)
 const initClientBRequest = {
     clientID: 'B',
     masterKey:1234n,
-    attributes: TestDataUtil.generateRandomNameAndNumbers(100)
+    // attributes: TestDataUtil.generateRandomNameAndNumbers(100)
+    attributes: [{name: 'collin', number: 1234}]
 } 
 
 clientBController.initClient(initClientBRequest)

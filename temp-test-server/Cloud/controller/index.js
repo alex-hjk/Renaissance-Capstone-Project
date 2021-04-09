@@ -1,3 +1,4 @@
+const MarshallerUtil = require('../../Util/MarshallerUtil')
 class CloudController {
     cloudService;
     constructor(cloudService){
@@ -12,7 +13,9 @@ class CloudController {
     }
     saveClientAttributes(request){
         const {clientID, blindedValuesMatrix} = request
-        this.cloudService.saveClientAttributes(clientID, blindedValuesMatrix)
+        const marshalled = MarshallerUtil.marshallObject(blindedValuesMatrix)  //Note: this is to test the marshalling util function. Can be removed in the production server
+        const unmarshalled = MarshallerUtil.unmarshallMatrix(marshalled)
+        this.cloudService.saveClientAttributes(clientID, unmarshalled)
     }
     //TODO: Call this save client IP instead
     saveClientInstance(request){

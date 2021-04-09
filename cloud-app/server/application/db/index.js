@@ -10,8 +10,8 @@ class CloudMemDB {
       this.blindedValuesMatrixMap[clientID] = blindedValuesMatrix
     }
 
-    saveClientInstance (clientID, clientInstance) {
-      this.clientIDtoIPMap[clientID] = clientInstance
+    saveClientIP (clientID, clientIP) {
+      this.clientIDtoIPMap[clientID] = clientIP
     }
 }
 

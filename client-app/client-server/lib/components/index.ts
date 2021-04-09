@@ -12,13 +12,6 @@ router.use(logger)
 router.use(express.json({ limit: '50mb' })) // Converts client requests to JSON
 router.use(corsImpl) // cors settings
 
-/**
- * Unauthenticated routes
- */
 router.use('/psi', apiRoute)
-
-/**
- * Authenticated routes
- */
 
 export default router

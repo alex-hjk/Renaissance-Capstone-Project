@@ -1,7 +1,7 @@
 import { cloudOrigin } from '../../config/cloud'
 
 /**
- * For fetch APIs to the cloud
+ * For fetch APIs to the communicators
  */
 const fetch = require('node-fetch')
 

@@ -18,10 +18,9 @@ class CloudController {
       this.cloudService.saveClientAttributes(clientID, blindedValuesMatrix)
     }
 
-    // TODO: Call this save client IP instead
-    saveClientInstance (request) {
+    saveClientIP (request) {
       const { clientID, clientIP } = request
-      this.cloudService.saveClientInstance(clientID, clientIP)
+      this.cloudService.saveClientIP(clientID, clientIP)
     }
 
     resultsComputation (request) {

@@ -41,8 +41,7 @@ class CloudService {
         const {requesterID, qPrimeMatrix} = request
         const requesterInstance = this.cloudDA.getClientIP(requesterID)
         const requesterBlindedValuesMatrix = this.cloudDA.getBlindedValuesMatrix(requesterID) 
-        
-        const { NUMBER_OF_BINS, MAXIMUM_LOAD, LARGE_PRIME_NUMBER, vectorX } = this.getCloudConfig() 
+        const { NUMBER_OF_BINS, MAXIMUM_LOAD, LARGE_PRIME_NUMBER, vectorX } = this.getCloudConfig()
         const [field] = GaloisUtil.generateGaloisFields([LARGE_PRIME_NUMBER])
 
         const qPrimePrimeMatrix = ResultsComputationUtil.generateQPrimePrimeMatrix(requesterBlindedValuesMatrix,field, NUMBER_OF_BINS, MAXIMUM_LOAD, TEMP_KEY, vectorX)

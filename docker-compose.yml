@@ -13,11 +13,11 @@ services:
     ports:
       - "5001:5001"
     volumes:
-      - "./cloud-app/server:/app"
+      - "./communicators-app/server:/app"
     # The AWS t2 micro instance can allow up to 1 GB of ram. Be careful when increasing mem limit
     mem_limit: 500m
-    depends_on:
-      - "cloud-db"
+#    depends_on:
+#      - "communicators-db"
   client-server:
     build:
       context: "./client-app/client-server"
@@ -28,8 +28,8 @@ services:
       - "./client-app/client-server:/app"
     # The AWS t2 micro instance can allow up to 1 GB of ram. Be careful when increasing mem limit
     mem_limit: 500m
-    depends_on:
-      - "client-db"
+#    depends_on:
+#      - "client-db"
   client-server-b:
     build:
       context: "./client-app/client-server"
@@ -40,35 +40,35 @@ services:
       - "./client-app/client-server:/app"
     # The AWS t2 micro instance can allow up to 1 GB of ram. Be careful when increasing mem limit
     mem_limit: 500m
-    depends_on:
-      - "client-db"
-  client-db:
-    image: "postgres:12.5"
-    restart: always
-    volumes:
-      - ./client-app/client-db/db_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    mem_limit: 300m
-    env_file:
-      - ./env/db.env
-  client-db_b:
-    image: "postgres:12.5"
-    restart: always
-    volumes:
-      - ./client-app_B/client-db/db_data:/var/lib/postgresql/data
-    ports:
-      - "5434:5432"
-    mem_limit: 300m
-    env_file:
-      - ./env/db.env
-  cloud-db:
-    image: "postgres:12.5"
-    restart: always
-    volumes:
-      - ./cloud-app/client-db/db_data:/var/lib/postgresql/data
-    ports:
-      - "5433:5432"
-    mem_limit: 300m
-    env_file:
-      - ./env/db.env
+#    depends_on:
+#      - "client-db"
+#  client-db:
+#    image: "postgres:12.5"
+#    restart: always
+#    volumes:
+#      - ./client-app/client-db/db_data:/var/lib/postgresql/data
+#    ports:
+#      - "5432:5432"
+#    mem_limit: 300m
+#    env_file:
+#      - ./env/db.env
+#  client-db_b:
+#    image: "postgres:12.5"
+#    restart: always
+#    volumes:
+#      - ./client-app_B/client-db/db_data:/var/lib/postgresql/data
+#    ports:
+#      - "5434:5432"
+#    mem_limit: 300m
+#    env_file:
+#      - ./env/db.env
+#  communicators-db:
+#    image: "postgres:12.5"
+#    restart: always
+#    volumes:
+#      - ./communicators-app/client-db/db_data:/var/lib/postgresql/data
+#    ports:
+#      - "5433:5432"
+#    mem_limit: 300m
+#    env_file:
+#      - ./env/db.env

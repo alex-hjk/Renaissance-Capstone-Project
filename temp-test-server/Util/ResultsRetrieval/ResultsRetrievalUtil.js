@@ -6,9 +6,11 @@ class ResultsRetrievalUtil {
 
     static resultsRetrieval = (smallPrimeNum, largePrimeNum,maximumLoad, numBins,vectorX, blindingFactors, hashedAttributes, qPrimeMatrix, qPrimePrimeMatrix) => {
         const [smallField, field] = GaloisUtil.generateGaloisFields([smallPrimeNum,largePrimeNum])
-        const blindingFactorsMatrix = field.newMatrixFrom(blindingFactors) 
+        const blindingFactorsMatrix = field.newMatrixFrom(blindingFactors)
+        const _qPrimeMatrix = field.newMatrixFrom(qPrimeMatrix)
+        const _qPrimePrimeMatrix = field.newMatrixFrom(qPrimePrimeMatrix)
         const hashTableClient = HashTableUtil.getHashTableFromAttributes(hashedAttributes,numBins, maximumLoad, smallField, smallPrimeNum)
-        const realAnswerArray = ResultsRetrievalUtil.retrieveRealResults(qPrimeMatrix, qPrimePrimeMatrix,blindingFactorsMatrix, hashTableClient, field, smallField, numBins, vectorX, smallPrimeNum)
+        const realAnswerArray = ResultsRetrievalUtil.retrieveRealResults(_qPrimeMatrix, _qPrimePrimeMatrix,blindingFactorsMatrix, hashTableClient, field, smallField, numBins, vectorX, smallPrimeNum)
         return realAnswerArray
     }
 

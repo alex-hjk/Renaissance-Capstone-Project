@@ -5,7 +5,7 @@ const InitClientUtil = require('../../Util/InitClient/InitClientUtil')
 
 class ClientService {
     clientDA
-    cloudInstance; // Remote to communicate with the cloud
+    cloudInstance; // Remote to communicate with the communicators
 
     constructor(cloudInstance, clientDA) {
         this.clientDA = clientDA
@@ -28,7 +28,7 @@ class ClientService {
         this.clientDA.saveBlindingFactors(blindingFactors) // Save blinding factors so that we do not have to recompute during results retrieval
         this.clientDA.saveBlindedValuesMatrix(blindedValuesMatrix)// Save the blinded values so that we dont have to recompuate during results computation
         
-        this.cloudInstance.saveClientAttributes({clientID, blindedValuesMatrix}) // Save blinded values to cloud 
+        this.cloudInstance.saveClientAttributes({clientID, blindedValuesMatrix}) // Save blinded values to communicators
         this.cloudInstance.saveClientInstance({clientID, clientIP}) // To simulate the ID to IP retrieval
     }
 
@@ -58,7 +58,6 @@ class ClientService {
         const attributes = this.clientDA.getAttributes()
         const hashedAttributes = HashUtil.attributesToHash(attributes)
         const blindingFactors = this.clientDA.getBlindingFactors(); // Stored in initClient
-
         const realAnswerArray = ResultsRetrievalUtil.resultsRetrieval(SMALL_PRIME_NUMBER, LARGE_PRIME_NUMBER,MAXIMUM_LOAD, NUMBER_OF_BINS,vectorX, blindingFactors, hashedAttributes, qPrimeMatrix, qPrimePrimeMatrix)
 
         const finalResult = HashUtil.hashToNameAndNumber(attributes, realAnswerArray)
