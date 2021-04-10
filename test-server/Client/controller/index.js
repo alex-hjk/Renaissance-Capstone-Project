@@ -23,7 +23,8 @@ class ClientController {
 
     resultsRetrieval(request){
         const { qPrimeMatrix, qPrimePrimeMatrix } = request;
-        this.clientServiceInstance.resultsRetrieval({qPrimeMatrix, qPrimePrimeMatrix})
+        // Note a Galois matrix in sent in the request here. We convert it to a bigint[][] before sending it to the service layer. In the actual implemnetation, The controller accepts a bigint[][]
+        this.clientServiceInstance.resultsRetrieval({qPrimeMatrix: qPrimeMatrix.values, qPrimePrimeMatrix: qPrimePrimeMatrix.values})
     }
 
 }
