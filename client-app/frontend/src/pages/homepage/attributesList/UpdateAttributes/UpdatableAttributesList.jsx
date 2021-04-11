@@ -5,39 +5,13 @@ import {
 import PropTypes from 'prop-types';
 import generateRandomNameAndNumbers from './TestDataUtil';
 import ListItem from '../ListItem';
+import useEndpoints from '../../../../shared/hooks/useEndpoints';
+import AddAttributesForm from './AddAttributesForm';
 
-const AddAttributesForm = ({ addAttribute }) => {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
-  const handleAddAttribute = useCallback(() => {
-    addAttribute({ name, number });
-    setName('');
-    setNumber('');
-  });
-  return (
-    <Grid container>
-      <Grid item xs={5}>
-        <TextField label="name" value={name} onChange={(event) => setName(event.target.value)} />
-      </Grid>
-      <Grid item xs={5}>
-        <TextField label="number" value={number} onChange={(event) => { setNumber(event.target.value); }} />
-      </Grid>
-      <Grid container item xs={2} alignItems="center" justify="center">
-        <Button onClick={handleAddAttribute}>
-          Add
-        </Button>
-      </Grid>
-    </Grid>
-  );
-};
-
-AddAttributesForm.propTypes = {
-  addAttribute: PropTypes.func.isRequired,
-};
-
-const UpdatableAttributesList = () => {
+const UpdatableAttributesList = ({ setOpen }) => {
   const [attributes, setAttributes] = useState([]);
   const [numTestAttr, setNumTestAttr] = useState(100);
+  const { initClient } = useEndpoints();
   const addAttribute = useCallback((attribute) => {
     // eslint-disable-next-line no-underscore-dangle
     const _attributes = [...attributes];
@@ -48,7 +22,11 @@ const UpdatableAttributesList = () => {
   const generateTestData = useCallback((numAttr) => {
     const temp = generateRandomNameAndNumbers(numAttr);
     setAttributes([...attributes, ...temp]);
-  }, [addAttribute]);
+  }, [setAttributes, attributes]);
+
+  const handleInitClient = useCallback(() => {
+    initClient(attributes, () => { setOpen(false); });
+  }, [initClient, setOpen, attributes]);
 
   return (
     <>
@@ -62,13 +40,13 @@ const UpdatableAttributesList = () => {
           <AddAttributesForm addAttribute={addAttribute} />
         </Grid>
         <Grid item container xs={12} justify="center" style={{ margin: '12px 0' }}>
-          <Button color="secondary" variant="contained" onClick={() => generateTestData(numTestAttr)}>
+          <Button color="secondary" variant="contained" onClick={() => generateTestData(numTestAttr)} size="small">
             Populate with test attributes
           </Button>
           <TextField label="number of attributes" style={{ marginLeft: '12px' }} value={numTestAttr} onChange={(event) => { setNumTestAttr(event.target.value); }} />
         </Grid>
         <Grid item container xs={12} justify="center" style={{ margin: '12px 0' }}>
-          <Button color="primary" variant="contained">
+          <Button color="primary" variant="contained" onClick={handleInitClient}>
             Submit
           </Button>
         </Grid>
@@ -77,6 +55,10 @@ const UpdatableAttributesList = () => {
 
     </>
   );
+};
+
+UpdatableAttributesList.propTypes = {
+  setOpen: PropTypes.func.isRequired,
 };
 
 export default UpdatableAttributesList;

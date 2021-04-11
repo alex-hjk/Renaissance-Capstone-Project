@@ -27,18 +27,6 @@ const UpdateAttributesModal = () => {
     setOpen(false);
   };
 
-  const body = (
-    <>
-      <Paper className={classes.root}>
-        <Typography variant="h5">
-          Update your attributes
-        </Typography>
-        <UpdatableAttributesList />
-
-      </Paper>
-    </>
-  );
-
   return (
     <>
       <Button type="button" onClick={handleOpen}>
@@ -48,7 +36,12 @@ const UpdateAttributesModal = () => {
         open={open}
         onClose={handleClose}
       >
-        {body}
+        <Paper className={classes.root}>
+          <Typography variant="h5">
+            Update your attributes
+          </Typography>
+          <UpdatableAttributesList setOpen={setOpen} />
+        </Paper>
       </Modal>
     </>
   );

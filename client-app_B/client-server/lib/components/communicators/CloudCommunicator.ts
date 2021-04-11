@@ -1,8 +1,7 @@
 import MarshallerUtil from './Util/MarshallerUtil'
 import ClientCommunicator from './ClientCommunicator'
-
+import ICloudUrlCache from './Cache/ICloudUrlCache'
 const fetch = require('node-fetch')
-const cloudOrigin = 'http://localhost:5001' // IP Address of the Cloud
 // export const cloudOrigin = 'http://eopsicloud-env-1.eba-bairbewe.ap-southeast-1.elasticbeanstalk.com' // Production endpoint
 /**
  * This layer implements the methods that CloudController has
@@ -12,8 +11,8 @@ const cloudOrigin = 'http://localhost:5001' // IP Address of the Cloud
 class CloudCommunicator {
   cloudUrl: string;
 
-  constructor () {
-    this.cloudUrl = `${cloudOrigin}/api/psi`
+  constructor (cloudUrlCache : ICloudUrlCache) {
+    this.cloudUrl = `${cloudUrlCache.getCloudUrl()}/api/psi`
   }
 
   async getCloudConfig () : Promise<{NUMBER_OF_BINS: number, MAXIMUM_LOAD: number, LARGE_PRIME_NUMBER: bigint, SMALL_PRIME_NUMBER: bigint, vectorX: bigint[] }> {
@@ -56,8 +55,10 @@ class CloudCommunicator {
 
   // TODO: FIX ANY
   async resultsComputation ({ requesterID, qPrimeMatrix }: {requesterID: string, qPrimeMatrix: any}) {
-    const marshalledQPrimeMatrix = MarshallerUtil.marshallObject(qPrimeMatrix) // TODO: qPrimeMatrix is currently a JSmatrix, make it a bigint[][] instead
-    await fetch(`${this.cloudUrl}/resultsComputation`, { method: 'POST', body: JSON.stringify({ requesterID, qPrimeMatrix: marshalledQPrimeMatrix }), headers: { 'Content-Type': 'application/json' } })
+    const marshalledQPrimeMatrix = MarshallerUtil.marshallObject(qPrimeMatrix)
+    console.log(JSON.stringify({ requesterID, qPrimeMatrix: marshalledQPrimeMatrix }))
+    const response = await fetch(`${this.cloudUrl}/resultsComputation`, { method: 'POST', body: JSON.stringify({ requesterID, qPrimeMatrix: marshalledQPrimeMatrix }), headers: { 'Content-Type': 'application/json' } })
+    // console.log(response)
     console.log('save client attributes')
   }
 }

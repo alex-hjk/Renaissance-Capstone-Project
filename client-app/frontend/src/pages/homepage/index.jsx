@@ -9,7 +9,6 @@ const Homepage = () => (
     <Grid container>
       <Grid item xs={6}>
         <AttributesList />
-
       </Grid>
       <Grid item xs={6}>
         Init PSI

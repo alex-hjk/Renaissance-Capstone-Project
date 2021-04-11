@@ -1,7 +1,7 @@
 // Entry point to all routes
 import logger from './middlewares/logger'
 import express from 'express'
-import apiRoute from './controller'
+import apiRoute from './framework'
 
 import { corsImpl } from './middlewares/cors'
 

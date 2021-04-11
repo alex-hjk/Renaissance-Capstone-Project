@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Paper } from '@material-ui/core';
+import { useSelector } from 'react-redux';
 import ListItem from './ListItem';
 import UpdateAttributesModal from './UpdateAttributes';
-import useGetAttributes from './useGetAttributes';
+import { selectors as attributesSelectors } from '../../../store/attributes';
+import useEndpoints from '../../../shared/hooks/useEndpoints';
 
 const AttributesList = () => {
-  const { attributes } = useGetAttributes();
+  const attributes = useSelector(attributesSelectors.getAttributes);
+  const { getAttributes } = useEndpoints();
+
+  useEffect(() => {
+    getAttributes();
+  }, [getAttributes]);
 
   return (
     <>

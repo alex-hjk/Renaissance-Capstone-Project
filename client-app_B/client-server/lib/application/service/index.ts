@@ -1,17 +1,19 @@
 import ICloudCommunicator from '../../components/communicators/ICloudCommunicator'
 import IClientDA from '../dataAccess/IClientDA'
-const HashUtil = require('../../Util/HashUtil')
-const ComputationDelegationUtil = require('../../Util/ComputationDelegation.js/ComputationDelegationUtil')
-const ResultsRetrievalUtil = require('../../Util/ResultsRetrieval/ResultsRetrievalUtil')
-const InitClientUtil = require('../../Util/InitClient/InitClientUtil')
+import IAppState from '../../components/communicators/AppState/IAppState'
+const HashUtil = require('./Util/HashUtil')
+const ComputationDelegationUtil = require('./Util/ComputationDelegation.js/ComputationDelegationUtil')
+const ResultsRetrievalUtil = require('./Util/ResultsRetrieval/ResultsRetrievalUtil')
+const InitClientUtil = require('./Util/InitClient/InitClientUtil')
 
 class ClientService {
     clientDA
     cloudInstance : ICloudCommunicator; // Remote to communicate with the communicators
-
-    constructor (cloudInstance: ICloudCommunicator, clientDA: IClientDA) {
+    appState: IAppState
+    constructor (cloudInstance: ICloudCommunicator, clientDA: IClientDA, appState: IAppState) {
       this.clientDA = clientDA
       this.cloudInstance = cloudInstance
+      this.appState = appState
     }
 
     async initClient ({ masterKey, attributes, clientID, clientIP }: { masterKey: number, attributes: any, clientID: string, clientIP: string }) {
@@ -47,8 +49,8 @@ class ClientService {
     // Requester
     async initPSI ({ requesteeID } : {requesteeID : string}) {
       const requesterID = this.clientDA.getClientID()
-      const requesteeInstance = await this.cloudInstance.getClientIP({ clientID: requesteeID }) // TODO:This should be changed to a controller instance instead
-
+      const requesteeInstance = await this.cloudInstance.getClientIP({ clientID: requesteeID })
+      this.appState.initPsi()
       await requesteeInstance.computationDelegation({ requesterID })
     }
 
@@ -57,11 +59,13 @@ class ClientService {
       const attributes = this.clientDA.getAttributes()
       const hashedAttributes = HashUtil.attributesToHash(attributes)
       const blindingFactors = this.clientDA.getBlindingFactors() // Stored in initClient
-
       const realAnswerArray = ResultsRetrievalUtil.resultsRetrieval(SMALL_PRIME_NUMBER, LARGE_PRIME_NUMBER, MAXIMUM_LOAD, NUMBER_OF_BINS, vectorX, blindingFactors, hashedAttributes, qPrimeMatrix, qPrimePrimeMatrix)
-
       const finalResult = HashUtil.hashToNameAndNumber(attributes, realAnswerArray)
-      console.log(finalResult)
+      this.appState.completePsi(finalResult)
+    }
+
+    getIntersectionResult () : {name: string, number: number}[] | 'isPending' | void {
+      return this.appState.getIntersectionResult()
     }
 }
 
