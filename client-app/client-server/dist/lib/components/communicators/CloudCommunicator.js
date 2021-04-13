@@ -6,10 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const MarshallerUtil_1 = __importDefault(require("./Util/MarshallerUtil"));
 const ClientCommunicator_1 = __importDefault(require("./ClientCommunicator"));
 const fetch = require('node-fetch');
-const cloudOrigin = 'http://localhost:5001';
 class CloudCommunicator {
-    constructor() {
-        this.cloudUrl = `${cloudOrigin}/api/psi`;
+    constructor(cloudUrlCache) {
+        this.cloudUrl = `${cloudUrlCache.getCloudUrl()}/api/psi`;
     }
     async getCloudConfig() {
         const response = await fetch(`${this.cloudUrl}/getCloudConfig`, { method: 'GET', headers: { 'Content-Type': 'application/json' } });

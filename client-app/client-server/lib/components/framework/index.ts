@@ -1,5 +1,5 @@
 /**
- * Framework layer to inject all services into the controller
+ * Framework layer to inject all services into the controller layer
  */
 
 import express from 'express'
@@ -93,6 +93,16 @@ router.get('/getIntersectionResult', async (req, res) => {
     res.status(200).json({ status, intersectionResult: result })
   } catch (e) {
     res.status(500).json({ ok: false, message: e.message })
+  }
+})
+
+router.get('/getAttributes', async (req, res) => {
+  try {
+    const clientController = initServices()
+    const attributes : {name: string, number: number}[] | undefined = clientController.getAttributes() // Can be void
+    res.status(200).json({ attributes })
+  } catch (e) {
+    res.status(200).json({ ok: false, message: e.message }) // Return status 200 because we assume that error is due to client not being initialized
   }
 })
 

@@ -1,5 +1,5 @@
-
 // The role of this class is to check the validity of the inputs
+
 class ClientController {
     clientServiceInstance;
 
@@ -43,6 +43,14 @@ class ClientController {
       return new Promise((resolve, reject) => {
         resolve(this.clientServiceInstance.resultsRetrieval({ qPrimeMatrix, qPrimePrimeMatrix }))
       })
+    }
+
+    getIntersectionResult () {
+      return this.clientServiceInstance.getIntersectionResult()
+    }
+
+    getAttributes () {
+      return this.clientServiceInstance.getAttributes()
     }
 }
 

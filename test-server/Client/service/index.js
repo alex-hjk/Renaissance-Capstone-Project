@@ -48,7 +48,7 @@ class ClientService {
     // Requester
     initPSI({requesteeID}){
         const requesterID = this.clientDA.getClientID()
-        const requesteeInstance = this.cloudInstance.getClientIP({clientID: requesteeID}) //TODO:This should be changed to a controller instance instead
+        const requesteeInstance = this.cloudInstance.getClientIP({clientID: requesteeID}) //TODO:This should be changed to a framework instance instead
         requesteeInstance.computationDelegation({requesterID})
     }
 

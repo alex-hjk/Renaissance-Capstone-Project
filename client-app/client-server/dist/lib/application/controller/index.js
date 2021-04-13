@@ -37,5 +37,11 @@ class ClientController {
             resolve(this.clientServiceInstance.resultsRetrieval({ qPrimeMatrix, qPrimePrimeMatrix }));
         });
     }
+    getIntersectionResult() {
+        return this.clientServiceInstance.getIntersectionResult();
+    }
+    getAttributes() {
+        return this.clientServiceInstance.getAttributes();
+    }
 }
 exports.default = ClientController;

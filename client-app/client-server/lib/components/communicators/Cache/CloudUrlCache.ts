@@ -1,8 +1,8 @@
 import { Service } from 'typedi'
-
+import ICloudUrlCache from './ICloudUrlCache'
 // Singleton instance which caches the cloud url
 @Service()
-class CloudUrlCache {
+class CloudUrlCache implements ICloudUrlCache {
     cloudUrl?: string
     setCloudUrl = (cloudUrl: string) => {
       this.cloudUrl = cloudUrl

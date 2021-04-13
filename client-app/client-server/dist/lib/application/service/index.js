@@ -5,9 +5,10 @@ const ComputationDelegationUtil = require('./Util/ComputationDelegation.js/Compu
 const ResultsRetrievalUtil = require('./Util/ResultsRetrieval/ResultsRetrievalUtil');
 const InitClientUtil = require('./Util/InitClient/InitClientUtil');
 class ClientService {
-    constructor(cloudInstance, clientDA) {
+    constructor(cloudInstance, clientDA, appState) {
         this.clientDA = clientDA;
         this.cloudInstance = cloudInstance;
+        this.appState = appState;
     }
     async initClient({ masterKey, attributes, clientID, clientIP }) {
         const { NUMBER_OF_BINS, MAXIMUM_LOAD, SMALL_PRIME_NUMBER, LARGE_PRIME_NUMBER, vectorX } = await this.cloudInstance.getCloudConfig();
@@ -32,6 +33,7 @@ class ClientService {
     async initPSI({ requesteeID }) {
         const requesterID = this.clientDA.getClientID();
         const requesteeInstance = await this.cloudInstance.getClientIP({ clientID: requesteeID });
+        this.appState.initPsi();
         await requesteeInstance.computationDelegation({ requesterID });
     }
     async resultsRetrieval({ qPrimeMatrix, qPrimePrimeMatrix }) {
@@ -41,7 +43,13 @@ class ClientService {
         const blindingFactors = this.clientDA.getBlindingFactors();
         const realAnswerArray = ResultsRetrievalUtil.resultsRetrieval(SMALL_PRIME_NUMBER, LARGE_PRIME_NUMBER, MAXIMUM_LOAD, NUMBER_OF_BINS, vectorX, blindingFactors, hashedAttributes, qPrimeMatrix, qPrimePrimeMatrix);
         const finalResult = HashUtil.hashToNameAndNumber(attributes, realAnswerArray);
-        console.log(finalResult);
+        this.appState.completePsi(finalResult);
+    }
+    getIntersectionResult() {
+        return this.appState.getIntersectionResult();
+    }
+    getAttributes() {
+        return this.clientDA.getAttributes();
     }
 }
 exports.default = ClientService;

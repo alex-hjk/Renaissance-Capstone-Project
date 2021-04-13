@@ -1,8 +1,7 @@
 import MarshallerUtil from './Util/MarshallerUtil'
 import ClientCommunicator from './ClientCommunicator'
-
+import ICloudUrlCache from './Cache/ICloudUrlCache'
 const fetch = require('node-fetch')
-const cloudOrigin = 'http://localhost:5001' // IP Address of the Cloud
 // export const cloudOrigin = 'http://eopsicloud-env-1.eba-bairbewe.ap-southeast-1.elasticbeanstalk.com' // Production endpoint
 /**
  * This layer implements the methods that CloudController has
@@ -12,8 +11,8 @@ const cloudOrigin = 'http://localhost:5001' // IP Address of the Cloud
 class CloudCommunicator {
   cloudUrl: string;
 
-  constructor () {
-    this.cloudUrl = `${cloudOrigin}/api/psi`
+  constructor (cloudUrlCache : ICloudUrlCache) {
+    this.cloudUrl = `${cloudUrlCache.getCloudUrl()}/api/psi`
   }
 
   async getCloudConfig () : Promise<{NUMBER_OF_BINS: number, MAXIMUM_LOAD: number, LARGE_PRIME_NUMBER: bigint, SMALL_PRIME_NUMBER: bigint, vectorX: bigint[] }> {

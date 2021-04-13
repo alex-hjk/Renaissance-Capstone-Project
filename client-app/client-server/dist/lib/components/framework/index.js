@@ -93,4 +93,14 @@ router.get('/getIntersectionResult', async (req, res) => {
         res.status(500).json({ ok: false, message: e.message });
     }
 });
+router.get('/getAttributes', async (req, res) => {
+    try {
+        const clientController = initServices();
+        const attributes = clientController.getAttributes();
+        res.status(200).json({ attributes });
+    }
+    catch (e) {
+        res.status(200).json({ ok: false, message: e.message });
+    }
+});
 exports.default = router;
