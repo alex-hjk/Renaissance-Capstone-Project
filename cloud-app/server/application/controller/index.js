@@ -27,6 +27,10 @@ class CloudController {
       const { requesterID, qPrimeMatrix } = request
       this.cloudService.resultsComputation({ requesterID, qPrimeMatrix })
     }
+
+    getRegisteredClients () {
+      return this.cloudService.getRegisteredClients()
+    }
 }
 
 module.exports = CloudController

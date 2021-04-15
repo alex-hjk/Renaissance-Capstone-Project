@@ -12,8 +12,7 @@ const initClient = () => {
   const cloudDBInstance = Container.get(CloudMemDB)
   const cloudMemDA = new CloudMemDA(cloudDBInstance)
   const cloudServiceInstance = new CloudService(cloudMemDA)
-  const cloudContoller = new CloudController(cloudServiceInstance)
-  return cloudContoller
+  return new CloudController(cloudServiceInstance)
 }
 
 router.get('/getCloudConfig', async (req, res) => {
@@ -54,6 +53,16 @@ router.post('/resultsComputation', async (req, res) => {
   const unmarshalledQprimeMatrix = MarshallerUtil.unmarshallMatrix(qPrimeMatrix)
   cloudControllerInstance.resultsComputation({ requesterID, qPrimeMatrix: unmarshalledQprimeMatrix })
   res.status(200).send({ message: 'Results computation complete' })
+})
+
+router.get('/getRegisteredClients', (req, res) => {
+  try {
+    const cloudControllerInstance = initClient()
+    const registeredClients = cloudControllerInstance.getRegisteredClients()
+    res.status(200).send({ registeredClients })
+  } catch (e) {
+    res.status(500).send({ error: e.message })
+  }
 })
 
 export default router

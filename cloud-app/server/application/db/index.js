@@ -13,6 +13,10 @@ class CloudMemDB {
     saveClientIP (clientID, clientIP) {
       this.clientIDtoIPMap[clientID] = clientIP
     }
+
+    getRegisteredClients () {
+      return Object.keys(this.clientIDtoIPMap)
+    }
 }
 
 module.exports = CloudMemDB

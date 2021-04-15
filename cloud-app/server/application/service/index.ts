@@ -47,6 +47,10 @@ class CloudService {
 
       requesterInstance.resultsRetrieval({ qPrimeMatrix, qPrimePrimeMatrix })
     }
+
+    getRegisteredClients () : string[] {
+      return this.cloudDA.getRegisteredClients()
+    }
 }
 
 export default CloudService

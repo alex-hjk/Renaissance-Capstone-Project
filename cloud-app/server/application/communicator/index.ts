@@ -21,13 +21,15 @@ class CloudMemDA {
       }
       const clientIP = this.cloudDB.clientIDtoIPMap[clientID]
 
-      const clientCommunicatorInstance = new ClientCommunicator(clientIP)
-
-      return clientCommunicatorInstance
+      return new ClientCommunicator(clientIP)
     }
 
     getBlindedValuesMatrix (clientID: string) : bigint[][] {
       return this.cloudDB.blindedValuesMatrixMap[clientID]
+    }
+
+    getRegisteredClients () : string[] {
+      return this.cloudDB.getRegisteredClients()
     }
 }
 
