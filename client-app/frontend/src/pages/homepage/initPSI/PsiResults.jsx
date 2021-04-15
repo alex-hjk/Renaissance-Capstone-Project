@@ -7,7 +7,6 @@ import { selectors as pendingStateSelectors } from '../../../store/pendingState'
 
 const PsiResults = () => {
   const isPending = useSelector(pendingStateSelectors.isPendingStateSelector);
-
   const [intersectionResult, setIntersectionResult] = useState(null);
   const { getIntersectionResult } = useEndpoints();
 
@@ -30,7 +29,7 @@ const PsiResults = () => {
 
       </Grid>
       <Grid item container xs={12}>
-        {intersectionResult.map(({ name, number }) => (
+        {intersectionResult ? intersectionResult.map(({ name, number }) => (
           <Grid item container xs={12} key={`${name} ${number}`}>
             <Grid item xs={6}>
               {`${name}`}
@@ -39,7 +38,12 @@ const PsiResults = () => {
               {`${number}`}
             </Grid>
           </Grid>
-        ))}
+        )) : (
+          <div>
+            PSI not initiated
+
+          </div>
+        )}
       </Grid>
     </Paper>
   );

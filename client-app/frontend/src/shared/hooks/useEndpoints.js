@@ -72,10 +72,21 @@ const useEndpoints = () => {
     }).catch((e) => {
       console.log(e);
     });
-  }, []);
+  }, [dispatch, fetch]);
+
+  const getRegisteredClients = useCallback((callback) => {
+    const url = `${cloudUrl}/api/psi/getRegisteredClients`;
+    const config = { url, method: 'GET' };
+    fetch(config).then((res) => {
+      const { registeredClients } = res.data;
+      callback(registeredClients);
+    }).catch((e) => {
+      console.log(e);
+    });
+  }, [fetch]);
 
   return {
-    initClient, getAttributes, getIntersectionResult, initPSI, loading,
+    initClient, getAttributes, getIntersectionResult, initPSI, loading, getRegisteredClients,
   };
 };
 
