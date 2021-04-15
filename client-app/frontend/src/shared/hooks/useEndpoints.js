@@ -2,6 +2,7 @@ import useAxois from 'axios-hooks';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { slice as attributesSlice } from '../../store/attributes';
+import { slice as isPendingSlice } from '../../store/pendingState';
 import useGetConfig from './useGetConfig';
 
 const useEndpoints = () => {
@@ -43,7 +44,39 @@ const useEndpoints = () => {
     });
   }, []);
 
-  return { initClient, getAttributes, loading };
+  const initPSI = useCallback((requesteeID) => {
+    const url = `${clientUrl}/initPSI`;
+    const config = {
+      url, method: 'POST', data: { requesteeID },
+    };
+    fetch(config).then((res) => {
+      if (res.data.ok) {
+        dispatch(isPendingSlice.actions.updatePendingState({ isPending: true }));
+      } else {
+        console.log(res.data);
+      }
+    }).catch((e) => {
+      console.log(e);
+    });
+  });
+
+  const getIntersectionResult = useCallback((callback) => {
+    const url = `${clientUrl}/getIntersectionResult`;
+    const config = { url, method: 'GET' };
+    fetch(config).then((res) => {
+      const { intersectionResult } = res.data;
+      if (intersectionResult) {
+        dispatch(isPendingSlice.actions.updatePendingState({ isPending: false }));
+        callback(intersectionResult);
+      }
+    }).catch((e) => {
+      console.log(e);
+    });
+  }, []);
+
+  return {
+    initClient, getAttributes, getIntersectionResult, initPSI, loading,
+  };
 };
 
 export default useEndpoints;
