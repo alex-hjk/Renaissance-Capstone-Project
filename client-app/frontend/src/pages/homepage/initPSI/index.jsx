@@ -7,7 +7,8 @@ import PsiResults from './PsiResults';
 import useGetConfig from '../../../shared/hooks/useGetConfig';
 
 const InitPSI = () => {
-  const { clientID } = useGetConfig(); // To ensure that the client cannot choose to compute PSI with himself
+  // To ensure that the client cannot choose to compute PSI with himself
+  const { clientID } = useGetConfig();
   const [registeredClients, setRegisteredClients] = useState([]);
   const [requesteeID, setRequesteeID] = useState('');
 
