@@ -9,8 +9,8 @@ class CloudService {
     }
 
     getCloudConfig = () => {
-      const NUMBER_OF_BINS = 3
-      const MAXIMUM_LOAD = 3
+      const NUMBER_OF_BINS = 26
+      const MAXIMUM_LOAD = 100
       const LARGE_PRIME_NUMBER = 1044444166666668888888889999999999n
       const SMALL_PRIME_NUMBER = 6435409832617n
       const vectorX = []

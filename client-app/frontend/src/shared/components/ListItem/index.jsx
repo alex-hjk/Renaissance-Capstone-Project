@@ -5,6 +5,7 @@ import { makeStyles, Grid } from '@material-ui/core';
 const useStyles = makeStyles(() => ({
   root: {
     padding: '10px',
+    borderBottom: '1px solid rgba(100,100,100,0.2)',
   },
 }));
 

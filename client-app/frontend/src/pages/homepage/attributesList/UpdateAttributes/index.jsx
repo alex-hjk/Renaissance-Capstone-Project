@@ -2,6 +2,7 @@ import { React, useState } from 'react';
 import {
   Modal, Button, Paper, Typography, makeStyles,
 } from '@material-ui/core';
+import PropTypes from 'prop-types';
 import UpdatableAttributesList from './UpdatableAttributesList';
 
 const useStyles = makeStyles(() => ({
@@ -15,7 +16,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const UpdateAttributesModal = () => {
+const UpdateAttributesModal = ({ initClient }) => {
   const [open, setOpen] = useState(false);
   const classes = useStyles();
 
@@ -29,8 +30,8 @@ const UpdateAttributesModal = () => {
 
   return (
     <>
-      <Button type="button" onClick={handleOpen}>
-        Update your attributes
+      <Button type="button" onClick={handleOpen} variant="contained" color="primary">
+        {initClient ? 'Initalize client' : 'Update your attributes'}
       </Button>
       <Modal
         open={open}
@@ -45,6 +46,10 @@ const UpdateAttributesModal = () => {
       </Modal>
     </>
   );
+};
+
+UpdateAttributesModal.propTypes = {
+  initClient: PropTypes.bool.isRequired,
 };
 
 export default UpdateAttributesModal;

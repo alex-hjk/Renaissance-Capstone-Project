@@ -4,7 +4,7 @@ import {
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import generateRandomNameAndNumbers from './TestDataUtil';
-import ListItem from '../ListItem';
+import ListItem from '../../../../shared/components/ListItem';
 import useEndpoints from '../../../../shared/hooks/useEndpoints';
 import AddAttributesForm from './AddAttributesForm';
 

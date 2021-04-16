@@ -64,10 +64,34 @@ const useEndpoints = () => {
     const url = `${clientUrl}/getIntersectionResult`;
     const config = { url, method: 'GET' };
     fetch(config).then((res) => {
-      const { intersectionResult } = res.data;
+      const { intersectionResult, timeTaken } = res.data;
       if (intersectionResult) {
         dispatch(isPendingSlice.actions.updatePendingState({ isPending: false }));
-        callback(intersectionResult);
+        callback(intersectionResult, timeTaken);
+      }
+    }).catch((e) => {
+      console.log(e);
+    });
+  }, [dispatch, fetch]);
+
+  const getRegisteredClients = useCallback((callback) => {
+    const url = `${cloudUrl}/api/psi/getRegisteredClients`;
+    const config = { url, method: 'GET' };
+    fetch(config).then((res) => {
+      const { registeredClients } = res.data;
+      callback(registeredClients);
+    }).catch((e) => {
+      console.log(e);
+    });
+  }, [fetch]);
+
+  const getCloudConfig = useCallback((callback) => {
+    const url = `${cloudUrl}/api/psi/getCloudConfig`;
+    const config = { url, method: 'GET' };
+    fetch(config).then((res) => {
+      const { cloudConfig } = res.data;
+      if (cloudConfig) {
+        callback(JSON.parse(cloudConfig));
       }
     }).catch((e) => {
       console.log(e);
@@ -75,7 +99,13 @@ const useEndpoints = () => {
   }, []);
 
   return {
-    initClient, getAttributes, getIntersectionResult, initPSI, loading,
+    initClient,
+    getAttributes,
+    getIntersectionResult,
+    initPSI,
+    loading,
+    getRegisteredClients,
+    getCloudConfig,
   };
 };
 

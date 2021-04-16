@@ -67,6 +67,10 @@ class ClientService {
     getIntersectionResult () : {name: string, number: number}[] | 'isPending' | void {
       return this.appState.getIntersectionResult()
     }
+
+    getAttributes () : {name: string, number: number}[] | void {
+      return this.clientDA.getAttributes()
+    }
 }
 
 export default ClientService

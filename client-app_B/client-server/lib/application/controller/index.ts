@@ -48,6 +48,10 @@ class ClientController {
     getIntersectionResult () {
       return this.clientServiceInstance.getIntersectionResult()
     }
+
+    getAttributes () {
+      return this.clientServiceInstance.getAttributes()
+    }
 }
 
 export default ClientController

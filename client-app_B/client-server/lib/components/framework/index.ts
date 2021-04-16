@@ -1,5 +1,5 @@
 /**
- * Framework layer to inject all services into the framework
+ * Framework layer to inject all services into the controller layer
  */
 
 import express from 'express'
@@ -13,6 +13,7 @@ import CloudCommunicator from '../communicators/CloudCommunicator'
 import { Container } from 'typedi'
 import MarshallerUtil from '../communicators/Util/MarshallerUtil'
 import CloudUrlCache from '../communicators/Cache/CloudUrlCache'
+import generateRandomNameAndNumbers from './TestDataUtil'
 
 const router = express.Router()
 
@@ -34,7 +35,12 @@ const setCloudUrl = (cloudUrl: string) => {
 
 router.post('/initClient', async (req, res) => {
   try {
-    const { masterKey, attributes, clientID, cloudUrl } = req.body
+    const { masterKey, clientID, cloudUrl, testSize } = req.body
+    let { attributes } = req.body
+    // testSize is accepted if we want to test more attributes
+    if (testSize) {
+      attributes = generateRandomNameAndNumbers(testSize)
+    }
     setCloudUrl(cloudUrl)
     const clientController = initServices()
     const clientIP = `http://${GetIpAddressUtil.getPrivateIpAndPort()}/api/psi`
@@ -93,6 +99,16 @@ router.get('/getIntersectionResult', async (req, res) => {
     res.status(200).json({ status, intersectionResult: result })
   } catch (e) {
     res.status(500).json({ ok: false, message: e.message })
+  }
+})
+
+router.get('/getAttributes', async (req, res) => {
+  try {
+    const clientController = initServices()
+    const attributes : {name: string, number: number}[] | undefined = clientController.getAttributes() // Can be void
+    res.status(200).json({ attributes })
+  } catch (e) {
+    res.status(200).json({ ok: false, message: e.message }) // Return status 200 because we assume that error is due to client not being initialized
   }
 })
 
