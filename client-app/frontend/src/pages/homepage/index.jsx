@@ -35,7 +35,6 @@ const Homepage = () => {
           {tab === 1 && <InitPSI />}
           {tab === 2 && <CloudConfig />}
         </Grid>
-
       </Grid>
     </>
   );

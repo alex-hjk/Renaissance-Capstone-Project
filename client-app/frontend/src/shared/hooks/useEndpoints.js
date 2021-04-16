@@ -64,10 +64,10 @@ const useEndpoints = () => {
     const url = `${clientUrl}/getIntersectionResult`;
     const config = { url, method: 'GET' };
     fetch(config).then((res) => {
-      const { intersectionResult } = res.data;
+      const { intersectionResult, timeTaken } = res.data;
       if (intersectionResult) {
         dispatch(isPendingSlice.actions.updatePendingState({ isPending: false }));
-        callback(intersectionResult);
+        callback(intersectionResult, timeTaken);
       }
     }).catch((e) => {
       console.log(e);
