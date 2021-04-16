@@ -26,7 +26,7 @@ const InitServices = ({
       masterKey: localMasterKey,
       clientID: localClientID,
     });
-  }, [localClientUrl, localCloudUrl]);
+  }, [localClientUrl, localCloudUrl, localClientID, localMasterKey, setConfigs]);
   return (
     <Grid container item spacing={2} justify="center">
       <Grid item xs={12}>

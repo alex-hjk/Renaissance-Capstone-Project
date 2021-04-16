@@ -29,7 +29,7 @@ const UpdateAttributesModal = () => {
 
   return (
     <>
-      <Button type="button" onClick={handleOpen}>
+      <Button type="button" onClick={handleOpen} variant="contained" color="primary">
         Update your attributes
       </Button>
       <Modal
