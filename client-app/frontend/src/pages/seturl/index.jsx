@@ -30,10 +30,10 @@ const InitServices = ({
   return (
     <Grid container item spacing={2} justify="center">
       <Grid item xs={12}>
-        <TextField label="Cloud Url" value={localClientUrl} onChange={(handleClientUrlChange)} />
+        <TextField label="Client Url" value={localClientUrl} onChange={(handleClientUrlChange)} />
       </Grid>
       <Grid item xs={12}>
-        <TextField label="Client Url" value={localCloudUrl} onChange={(handleCloudUrlChange)} />
+        <TextField label="Cloud Url" value={localCloudUrl} onChange={(handleCloudUrlChange)} />
       </Grid>
       <Grid item xs={12}>
         <TextField label="Master Key" value={localMasterKey} onChange={(event) => setLocalMasterKey(event.target.value)} />
