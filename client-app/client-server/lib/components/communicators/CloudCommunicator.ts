@@ -53,12 +53,9 @@ class CloudCommunicator {
     }
   }
 
-  // TODO: FIX ANY
   async resultsComputation ({ requesterID, qPrimeMatrix }: {requesterID: string, qPrimeMatrix: any}) {
     const marshalledQPrimeMatrix = MarshallerUtil.marshallObject(qPrimeMatrix)
-    console.log(JSON.stringify({ requesterID, qPrimeMatrix: marshalledQPrimeMatrix }))
-    const response = await fetch(`${this.cloudUrl}/resultsComputation`, { method: 'POST', body: JSON.stringify({ requesterID, qPrimeMatrix: marshalledQPrimeMatrix }), headers: { 'Content-Type': 'application/json' } })
-    // console.log(response)
+    await fetch(`${this.cloudUrl}/resultsComputation`, { method: 'POST', body: JSON.stringify({ requesterID, qPrimeMatrix: marshalledQPrimeMatrix }), headers: { 'Content-Type': 'application/json' } })
     console.log('save client attributes')
   }
 }
