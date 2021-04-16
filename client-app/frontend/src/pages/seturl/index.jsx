@@ -4,6 +4,7 @@ import { Button, TextField, Grid } from '@material-ui/core';
 import useSetConfigs from './useSetConfigs';
 
 import SocialMedia from '../../assets/social-media.png';
+import Settings from '../../assets/settings.png';
 
 const InitServices = ({
   cloudUrl, clientUrl,
@@ -49,13 +50,6 @@ const InitServices = ({
         <br />
         <p><b>Please Log In Below</b></p>
         <Grid container item spacing={2} justify="center">
-          {/* <Grid item xs={12}>
-            <TextField label="Client Url" value={localClientUrl}
-            onChange={(handleClientUrlChange)} />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField label="Cloud Url" value={localCloudUrl} onChange={(handleCloudUrlChange)} />
-          </Grid> */}
           <Grid item xs={12}>
             <TextField label="Client ID" value={localClientID} onChange={(event) => setLocalClientID(event.target.value)} />
           </Grid>
@@ -70,6 +64,7 @@ const InitServices = ({
         </Grid>
       </div>
       <div style={cardStyle}>
+        <img style={{ height: '50px', width: '50px' }} src={Settings} alt="socialmedia" />
         <p><b>Internal Application Configurations</b></p>
         <Grid container item spacing={2} justify="center">
           <Grid item xs={12}>

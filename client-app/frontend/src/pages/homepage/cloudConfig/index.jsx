@@ -5,9 +5,15 @@ import {
 import useEndpoints from '../../../shared/hooks/useEndpoints';
 import ListItem from '../../../shared/components/ListItem';
 
+import Cloud from '../../../assets/cloud-network.png';
+
 const useStyles = makeStyles(() => ({
   root: {
     margin: '16px',
+  },
+  image: {
+    height: '50px',
+    width: '50px',
   },
 }));
 
@@ -37,7 +43,10 @@ const CloudConfig = () => {
   return cloudConfig && (
   <>
     <Grid container justify="center" className={classes.root}>
-      <Typography variant="h5">
+      <img src={Cloud} alt="Cloud" className={classes.image} />
+    </Grid>
+    <Grid container justify="center" className={classes.root}>
+      <Typography variant="h6">
         Cloud Configuration
       </Typography>
     </Grid>

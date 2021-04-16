@@ -23,9 +23,9 @@ const Homepage = () => {
           onChange={handleChange}
           aria-label="disabled tabs example"
         >
-          <Tab label="Init Client" />
-          <Tab label="Init PSI" />
-          <Tab label="View Cloud Configuration" />
+          <Tab label="Initialise Client" />
+          <Tab label="Initiate PSI" />
+          <Tab label="View Cloud Configurations" />
         </Tabs>
       </Paper>
 

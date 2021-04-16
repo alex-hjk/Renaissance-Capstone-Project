@@ -1,14 +1,24 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
-  Select, InputLabel, MenuItem, Button, Grid, FormControl, makeStyles,
+  Select, InputLabel, MenuItem, Button, Grid, FormControl, makeStyles, Typography,
 } from '@material-ui/core';
 import useEndpoints from '../../../shared/hooks/useEndpoints';
 import PsiResults from './PsiResults';
 import useGetConfig from '../../../shared/hooks/useGetConfig';
 
+import Intersect from '../../../assets/intersect.png';
+
 const useStyles = makeStyles(() => ({
   container: {
     margin: '16px',
+  },
+  image: {
+    marginTop: '20px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginBottom: '20px',
+    height: '50px',
+    width: '50px',
   },
 }));
 
@@ -39,8 +49,12 @@ const InitPSI = () => {
 
   return (
     <Grid container justify="center" spacing={5} className={classes.container}>
+      <img src={Intersect} alt="Intersection" className={classes.image} />
       <Grid container item justify="center" xs={12}>
         <Grid item container xs={6}>
+          <Typography variant="h6" style={{ marginLeft: 'auto', marginRight: 'auto', marginBottom: '20px' }}>
+            Initiate a PSI Request with another Client!
+          </Typography>
           <FormControl fullWidth>
             <InputLabel>Who do you want to compute your PSI with?</InputLabel>
             <Select
@@ -50,9 +64,8 @@ const InitPSI = () => {
               {registeredClients.filter((value) => value !== clientID)
                 .map((value) => <MenuItem key={value} value={value}>{value}</MenuItem>)}
             </Select>
-
             <Button onClick={handleInitPSI}>
-              Init PSI
+              Initiate PSI Computation
             </Button>
           </FormControl>
         </Grid>

@@ -8,8 +8,17 @@ import useInterval from './useInterval';
 import ListItem from '../../../shared/components/ListItem';
 import { selectors as pendingStateSelectors } from '../../../store/pendingState';
 
+import Results from '../../../assets/results.png';
+
 const useStyles = makeStyles(() => ({
-  container: { padding: '16px' },
+  container: { padding: '10px', textAlign: 'center' },
+  image: {
+    marginTop: '20px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    height: '50px',
+    width: '50px',
+  },
 }));
 
 const PsiResults = () => {
@@ -39,8 +48,9 @@ const PsiResults = () => {
     : (
       <Paper style={{ width: '100%' }}>
         <Grid item xs={12} className={classes.container}>
-          <Typography variant="h6">
-            PSI results
+          <img src={Results} alt="Results" className={classes.image} />
+          <Typography variant="h6" className={classes.container}>
+            PSI Results
           </Typography>
         </Grid>
         <Grid item container xs={12}>
@@ -48,14 +58,14 @@ const PsiResults = () => {
             <ListItem number={number} name={name} key={`${name}${number}`} />
           )) : (
             <Typography variant="caption" className={classes.container} color="secondary">
-              PSI not initiated
+              PSI computation has not yet been initiated.
             </Typography>
           )}
         </Grid>
         {timeTaken && (
         <Grid item xs={12} className={classes.container}>
           <Typography variant="body2" color="primary" style={{ fontWeight: '700' }}>
-            Time taken for completion:
+            Time Taken for Completion:
             {' '}
             {`${(timeTaken / 1000).toFixed(2)}s`}
           </Typography>
