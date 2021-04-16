@@ -43,7 +43,7 @@ const InitServices = ({
       </Grid>
       <Grid item xs={12}>
         <Button onClick={handleSubmit}>
-          Update Configs
+          Sign In into local server
         </Button>
       </Grid>
     </Grid>

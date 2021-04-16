@@ -96,7 +96,17 @@ const useEndpoints = () => {
     }).catch((e) => {
       console.log(e);
     });
-  }, []);
+  }, [fetch]);
+
+  const updateNumBins = useCallback((numBins, callback) => {
+    const url = `${cloudUrl}/api/psi/updateNumBins`;
+    const config = { url, method: 'POST', data: { numBins } };
+    fetch(config).then(() => {
+      getCloudConfig(callback);
+    }).catch((e) => {
+      console.log(e);
+    });
+  }, [fetch]);
 
   return {
     initClient,
@@ -106,6 +116,7 @@ const useEndpoints = () => {
     loading,
     getRegisteredClients,
     getCloudConfig,
+    updateNumBins,
   };
 };
 

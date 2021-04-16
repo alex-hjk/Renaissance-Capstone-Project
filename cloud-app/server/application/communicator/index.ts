@@ -31,6 +31,14 @@ class CloudMemDA {
     getRegisteredClients () : string[] {
       return this.cloudDB.getRegisteredClients()
     }
+
+    getCloudConfig () {
+      return this.cloudDB.getCloudConfig()
+    }
+
+    updateNumBins (numBins: number) {
+      this.cloudDB.updateNumBins(numBins)
+    }
 }
 
 export default CloudMemDA

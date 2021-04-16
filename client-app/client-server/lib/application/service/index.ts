@@ -29,7 +29,6 @@ class ClientService {
 
       this.clientDA.saveBlindingFactors(blindingFactors) // Save blinding factors so that we do not have to recompute during results retrieval
       this.clientDA.saveBlindedValuesMatrix(blindedValuesMatrix)// Save the blinded values so that we dont have to recompuate during results computation
-
       this.cloudInstance.saveClientAttributes({ clientID, blindedValuesMatrix }) // Save blinded values to communicators
       this.cloudInstance.saveClientIP({ clientID, clientIP }) // To simulate the ID to IP retrieval
     }

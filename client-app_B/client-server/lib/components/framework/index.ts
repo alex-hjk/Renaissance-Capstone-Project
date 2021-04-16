@@ -18,7 +18,7 @@ import generateRandomNameAndNumbers from './TestDataUtil'
 const router = express.Router()
 
 const initServices = () => {
-  const appState = Container.get(AppState) // Singleton instance to control the app state
+  const appState = Container.get(AppState) // Singleton instance to control the app pendingState
   const cloudUrlCache = Container.get(CloudUrlCache) // Singleton instance to set the cloud url
   const clientDBInstance = Container.get(ClientMemDB) // Singleton instance to persist storage
   const cloudCommunicator = new CloudCommunicator(cloudUrlCache)
@@ -93,10 +93,10 @@ router.post('/resultsRetrieval', async (req, res) => {
 router.get('/getIntersectionResult', async (req, res) => {
   try {
     const clientController = initServices()
-    const intersectionResult : {name: string, number: number}[] | 'isPending' | void = clientController.getIntersectionResult() // Can be void
+    const intersectionResult : { intersectionResult: { name: string, number: number }[], timeTaken: number }| 'isPending' | void = clientController.getIntersectionResult() // Can be void
     const status = intersectionResult === 'isPending' ? 'pending' : 'completed or error occured'
     const result = (intersectionResult && intersectionResult !== 'isPending') ? intersectionResult : undefined
-    res.status(200).json({ status, intersectionResult: result })
+    res.status(200).json({ status, ...result })
   } catch (e) {
     res.status(500).json({ ok: false, message: e.message })
   }
