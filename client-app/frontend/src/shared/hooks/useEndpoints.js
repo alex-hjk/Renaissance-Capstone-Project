@@ -85,8 +85,27 @@ const useEndpoints = () => {
     });
   }, [fetch]);
 
+  const getCloudConfig = useCallback((callback) => {
+    const url = `${cloudUrl}/api/psi/getCloudConfig`;
+    const config = { url, method: 'GET' };
+    fetch(config).then((res) => {
+      const { cloudConfig } = res.data;
+      if (cloudConfig) {
+        callback(JSON.parse(cloudConfig));
+      }
+    }).catch((e) => {
+      console.log(e);
+    });
+  }, []);
+
   return {
-    initClient, getAttributes, getIntersectionResult, initPSI, loading, getRegisteredClients,
+    initClient,
+    getAttributes,
+    getIntersectionResult,
+    initPSI,
+    loading,
+    getRegisteredClients,
+    getCloudConfig,
   };
 };
 

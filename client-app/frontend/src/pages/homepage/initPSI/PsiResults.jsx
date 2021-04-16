@@ -45,7 +45,7 @@ const PsiResults = () => {
         </Grid>
         <Grid item container xs={12}>
           {intersectionResult ? intersectionResult.map(({ name, number }) => (
-            <ListItem number={number} name={name} />
+            <ListItem number={number} name={name} key={`${name}${number}`} />
           )) : (
             <Typography variant="caption" className={classes.container} color="secondary">
               PSI not initiated
