@@ -47,12 +47,8 @@ const InitPSI = () => {
               value={requesteeID}
               onChange={handleChange}
             >
-              {registeredClients.map((value) => {
-                if (value !== clientID) {
-                  return <MenuItem key={value} value={value}>{value}</MenuItem>;
-                }
-                return <></>;
-              })}
+              {registeredClients.filter((value) => value !== clientID)
+                .map((value) => <MenuItem key={value} value={value}>{value}</MenuItem>)}
             </Select>
 
             <Button onClick={handleInitPSI}>
