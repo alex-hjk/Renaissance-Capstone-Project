@@ -1,10 +1,31 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, TextField, Grid } from '@material-ui/core';
+import {
+  Button,
+  TextField,
+  Grid,
+  makeStyles,
+} from '@material-ui/core';
 import useSetConfigs from './useSetConfigs';
 
 import SocialMedia from '../../assets/social-media.png';
 import Settings from '../../assets/settings.png';
+
+const useStyles = makeStyles(() => ({
+  card: {
+    fontFamily: 'arial',
+    width: '80%',
+    margin: '16px auto',
+    border: '1px solid #eee',
+    boxShadow: '0 2px 3px #ccc',
+    padding: '15px',
+    textAlign: 'center',
+  },
+  image: {
+    height: '50px',
+    width: '50px',
+  },
+}));
 
 const InitServices = ({
   cloudUrl, clientUrl,
@@ -31,20 +52,12 @@ const InitServices = ({
     });
   }, [localClientUrl, localCloudUrl]);
 
-  const cardStyle = {
-    fontFamily: 'arial',
-    width: '80%',
-    margin: '16px auto',
-    border: '1px solid #eee',
-    boxShadow: '0 2px 3px #ccc',
-    padding: '15px',
-    textAlign: 'center',
-  };
+  const classes = useStyles();
 
   return (
     <>
-      <div style={cardStyle}>
-        <img style={{ height: '50px', width: '50px' }} src={SocialMedia} alt="socialmedia" />
+      <div className={classes.card}>
+        <img className={classes.image} src={SocialMedia} alt="socialmedia" />
         <h2><b>Welcome to our PSI Application</b></h2>
         <p>Identify common attributes with other users without the risk of data leakage.</p>
         <br />
@@ -63,8 +76,8 @@ const InitServices = ({
           </Grid>
         </Grid>
       </div>
-      <div style={cardStyle}>
-        <img style={{ height: '50px', width: '50px' }} src={Settings} alt="socialmedia" />
+      <div className={classes.card}>
+        <img className={classes.image} src={Settings} alt="socialmedia" />
         <p><b>Internal Application Configurations</b></p>
         <Grid container item spacing={2} justify="center">
           <Grid item xs={12}>
