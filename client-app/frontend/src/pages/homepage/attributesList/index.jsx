@@ -34,7 +34,7 @@ const AttributesList = () => {
         <>
           <Grid item xs={12} container justify="center" className={classes.container}>
             <Typography variant="h6">
-              Number of attributes:
+              Number of Attributes:
               {' '}
               {attributes.length}
             </Typography>
@@ -51,7 +51,7 @@ const AttributesList = () => {
       ) : (
         <Grid item xs={12} container justify="center" className={classes.container}>
           <Typography variant="body1" color="secondary">
-            Please Initialize your client
+            Your attribute list is now empty. Click below to upload your attributes.
           </Typography>
         </Grid>
       )}

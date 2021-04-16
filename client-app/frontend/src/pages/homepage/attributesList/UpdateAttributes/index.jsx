@@ -31,7 +31,7 @@ const UpdateAttributesModal = ({ initClient }) => {
   return (
     <>
       <Button type="button" onClick={handleOpen} variant="contained" color="primary">
-        {initClient ? 'Initalize client' : 'Update your attributes'}
+        {initClient ? 'Upload Attributes' : 'Update Attributes'}
       </Button>
       <Modal
         open={open}
@@ -39,7 +39,7 @@ const UpdateAttributesModal = ({ initClient }) => {
       >
         <Paper className={classes.root}>
           <Typography variant="h5">
-            Update your attributes
+            Update Your Attributes
           </Typography>
           <UpdatableAttributesList setOpen={setOpen} />
         </Paper>

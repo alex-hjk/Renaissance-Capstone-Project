@@ -14,9 +14,10 @@ const Navbar = () => {
     <AppBar position="static" className={classes.root}>
       <Toolbar variant="dense">
         <Typography>
-          Client ID:
+          Welcome Client
           {' '}
           {clientID}
+          {'!'}
         </Typography>
       </Toolbar>
     </AppBar>
