@@ -12,6 +12,7 @@ const Homepage = () => (
         <AttributesList />
       </Grid>
       <Grid item xs={6}>
+        {/* Init PSI */}
         <InitPSI />
       </Grid>
 
