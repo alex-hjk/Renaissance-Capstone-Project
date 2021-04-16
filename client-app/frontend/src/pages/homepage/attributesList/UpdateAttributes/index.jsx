@@ -1,9 +1,11 @@
 import { React, useState } from 'react';
 import {
-  Modal, Button, Paper, Typography, makeStyles,
+  Modal, Button, Paper, Typography, makeStyles, Grid,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import UpdatableAttributesList from './UpdatableAttributesList';
+
+import AddAttributes from '../../../../assets/add-attributes.png';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -12,7 +14,12 @@ const useStyles = makeStyles(() => ({
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    padding: '8px',
+    padding: '30px',
+  },
+  image: {
+    align: 'center',
+    height: '50px',
+    width: '50px',
   },
 }));
 
@@ -38,7 +45,10 @@ const UpdateAttributesModal = ({ initClient }) => {
         onClose={handleClose}
       >
         <Paper className={classes.root}>
-          <Typography variant="h5">
+          <Grid container justify="center">
+            <img src={AddAttributes} alt="Add Attributes" className={classes.image} />
+          </Grid>
+          <Typography variant="h6" align="center">
             Update Your Attributes
           </Typography>
           <UpdatableAttributesList setOpen={setOpen} />
