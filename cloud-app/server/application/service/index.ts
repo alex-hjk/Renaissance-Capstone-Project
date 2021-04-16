@@ -9,19 +9,11 @@ class CloudService {
     }
 
     getCloudConfig = () => {
-      const NUMBER_OF_BINS = 26
-      const MAXIMUM_LOAD = 100
-      const LARGE_PRIME_NUMBER = 1044444166666668888888889999999999n
-      const SMALL_PRIME_NUMBER = 6435409832617n
-      const vectorX = []
-      for (let i = 1; i <= 2 * MAXIMUM_LOAD + 1; i++) {
-        vectorX.push(BigInt(i))
-      }
-      return { NUMBER_OF_BINS, MAXIMUM_LOAD, LARGE_PRIME_NUMBER, SMALL_PRIME_NUMBER, vectorX }
+      return this.cloudDA.getCloudConfig()
     }
 
     getClientIP = (clientID: string) => {
-      // TODO: Check should be dont at the DA layer
+      // TODO: Check should be done at the DA layer
       if (!this.cloudDA.getClientIP(clientID)) {
         throw new Error('This client cannot be found')
       }
@@ -50,6 +42,10 @@ class CloudService {
 
     getRegisteredClients () : string[] {
       return this.cloudDA.getRegisteredClients()
+    }
+
+    updateNumBins (numBins : number) : void {
+      this.cloudDA.updateNumBins(numBins)
     }
 }
 
