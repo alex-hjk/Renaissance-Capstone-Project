@@ -46,7 +46,7 @@ const UpdatableAttributesList = ({ setOpen }) => {
         </Grid>
         <Grid item container xs={12} justify="center" style={{ margin: '12px 0' }}>
           <Button variant="contained" onClick={() => generateTestData(numTestAttr)} size="small">
-            Populate with test attributes
+            Simulate Data Import
           </Button>
           <TextField label="number of attributes" style={{ marginLeft: '12px' }} value={numTestAttr} onChange={(event) => { setNumTestAttr(event.target.value); }} />
         </Grid>
