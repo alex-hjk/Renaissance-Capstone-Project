@@ -45,7 +45,7 @@ const PsiResults = () => {
         <CircularProgress />
       </Grid>
     )
-    : (
+    : intersectionResult && (
       <Paper style={{ width: '100%' }}>
         <Grid item xs={12} className={classes.container}>
           <img src={Results} alt="Results" className={classes.image} />

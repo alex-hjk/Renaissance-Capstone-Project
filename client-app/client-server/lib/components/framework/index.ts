@@ -45,7 +45,7 @@ router.post('/initClient', async (req, res) => {
     const clientController = initServices()
     const clientIP = `http://${GetIpAddressUtil.getPrivateIpAndPort()}/api/psi`
     clientController.initClient({ masterKey, attributes, clientID, clientIP }).then((result: any) => {
-      res.status(200).json({ ok: true, message: 'client initiated' })
+      res.status(200).json({ ok: true, message: 'client initiated', blindedVectors: MarshallerUtil.marshallObject(result) })
     }).catch(e => {
       res.status(500).json({ ok: false, message: e.message })
     })
@@ -82,7 +82,8 @@ router.post('/resultsRetrieval', async (req, res) => {
   try {
     const clientController = initServices()
     const { qPrimeMatrix, qPrimePrimeMatrix } = req.body
-    clientController.resultsRetrieval({ qPrimeMatrix: MarshallerUtil.unmarshallMatrix(qPrimeMatrix), qPrimePrimeMatrix: MarshallerUtil.unmarshallMatrix(qPrimePrimeMatrix) }).then((result:any) => {
+    const request = { qPrimeMatrix: MarshallerUtil.unmarshallMatrix(qPrimeMatrix), qPrimePrimeMatrix: MarshallerUtil.unmarshallMatrix(qPrimePrimeMatrix) }
+    clientController.resultsRetrieval(request).then((result:any) => {
       res.status(200).json({ ok: true, message: 'Result Retrieval Completed' })
     })
   } catch (e) {
@@ -93,9 +94,13 @@ router.post('/resultsRetrieval', async (req, res) => {
 router.get('/getIntersectionResult', async (req, res) => {
   try {
     const clientController = initServices()
-    const intersectionResult : { intersectionResult: { name: string, number: number }[], timeTaken: number }| 'isPending' | void = clientController.getIntersectionResult() // Can be void
+    const intersectionResult : { intersectionResult: { name: string, number: number }[], resultsRetrievalReq:{ qPrimeMatrix: any, qPrimePrimeMatrix: any }, timeTaken: number }| 'isPending' | void = clientController.getIntersectionResult() // Can be void
     const status = intersectionResult === 'isPending' ? 'pending' : 'completed or error occured'
     const result = (intersectionResult && intersectionResult !== 'isPending') ? intersectionResult : undefined
+    if (result && result.resultsRetrievalReq) {
+      result.resultsRetrievalReq.qPrimeMatrix = MarshallerUtil.marshallObject(result.resultsRetrievalReq.qPrimeMatrix)
+      result.resultsRetrievalReq.qPrimePrimeMatrix = MarshallerUtil.marshallObject(result.resultsRetrievalReq.qPrimePrimeMatrix)
+    }
     res.status(200).json({ status, ...result })
   } catch (e) {
     res.status(500).json({ ok: false, message: e.message })

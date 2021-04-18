@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { slice as attributesSlice } from '../../store/attributes';
 import { slice as isPendingSlice } from '../../store/pendingState';
+import { slice as intermediateAttributesSlice } from '../../store/intermediateAttributes';
 import useGetConfig from './useGetConfig';
 
 const useEndpoints = () => {
@@ -36,7 +37,9 @@ const useEndpoints = () => {
       method: 'POST',
       data,
     };
-    fetch(config).then(() => {
+    fetch(config).then((res) => {
+      dispatch(intermediateAttributesSlice.actions
+        .updateInitClientRes({ initClientRes: res.data.blindedVectors }));
       setTimeout(getAttributes, 500); // To make sure that axios does not cancel the request
       callback();
     }).catch((e) => {
@@ -64,8 +67,10 @@ const useEndpoints = () => {
     const url = `${clientUrl}/getIntersectionResult`;
     const config = { url, method: 'GET' };
     fetch(config).then((res) => {
-      const { intersectionResult, timeTaken } = res.data;
+      const { intersectionResult, resultsRetrievalReq, timeTaken } = res.data;
       if (intersectionResult) {
+        dispatch(intermediateAttributesSlice
+          .actions.updateResultRetrievalReq({ resultsRetrievalReq }));
         dispatch(isPendingSlice.actions.updatePendingState({ isPending: false }));
         callback(intersectionResult, timeTaken);
       }
