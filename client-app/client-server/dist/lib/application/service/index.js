@@ -21,6 +21,7 @@ class ClientService {
         this.clientDA.saveBlindedValuesMatrix(blindedValuesMatrix);
         this.cloudInstance.saveClientAttributes({ clientID, blindedValuesMatrix });
         this.cloudInstance.saveClientIP({ clientID, clientIP });
+        return blindedValuesMatrix.values;
     }
     async computationDelegation({ requesterID }) {
         const TEMP_KEY = 321n;
@@ -43,7 +44,7 @@ class ClientService {
         const blindingFactors = this.clientDA.getBlindingFactors();
         const realAnswerArray = ResultsRetrievalUtil.resultsRetrieval(SMALL_PRIME_NUMBER, LARGE_PRIME_NUMBER, MAXIMUM_LOAD, NUMBER_OF_BINS, vectorX, blindingFactors, hashedAttributes, qPrimeMatrix, qPrimePrimeMatrix);
         const finalResult = HashUtil.hashToNameAndNumber(attributes, realAnswerArray);
-        this.appState.completePsi(finalResult);
+        this.appState.completePsi(finalResult, { qPrimeMatrix, qPrimePrimeMatrix });
     }
     getIntersectionResult() {
         return this.appState.getIntersectionResult();

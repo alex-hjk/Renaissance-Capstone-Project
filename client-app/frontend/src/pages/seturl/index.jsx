@@ -50,7 +50,7 @@ const InitServices = ({
       masterKey: localMasterKey,
       clientID: localClientID,
     });
-  }, [localClientUrl, localCloudUrl]);
+  }, [localClientUrl, localCloudUrl, localClientID, localMasterKey]);
 
   const classes = useStyles();
 

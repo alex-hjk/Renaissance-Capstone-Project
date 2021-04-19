@@ -22,7 +22,7 @@ const Navbar = () => {
       <Toolbar variant="dense">
         <img src={Logo} alt="Logo" className={classes.image} />
         <Typography variant="subtitle2">
-          PSI Application | Welcome Client
+          PSI Application | Welcome
           {' '}
           {clientID}
           {'!'}
