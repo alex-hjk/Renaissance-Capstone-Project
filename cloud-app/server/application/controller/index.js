@@ -31,6 +31,11 @@ class CloudController {
     getRegisteredClients () {
       return this.cloudService.getRegisteredClients()
     }
+
+    updateNumBins (request) {
+      const { numBins } = request
+      this.cloudService.updateNumBins(numBins)
+    }
 }
 
 module.exports = CloudController

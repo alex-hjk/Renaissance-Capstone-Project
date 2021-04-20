@@ -29,9 +29,9 @@ class ClientService {
 
       this.clientDA.saveBlindingFactors(blindingFactors) // Save blinding factors so that we do not have to recompute during results retrieval
       this.clientDA.saveBlindedValuesMatrix(blindedValuesMatrix)// Save the blinded values so that we dont have to recompuate during results computation
-
       this.cloudInstance.saveClientAttributes({ clientID, blindedValuesMatrix }) // Save blinded values to communicators
       this.cloudInstance.saveClientIP({ clientID, clientIP }) // To simulate the ID to IP retrieval
+      return blindedValuesMatrix.values
     }
 
     // Requestee
@@ -61,10 +61,11 @@ class ClientService {
       const blindingFactors = this.clientDA.getBlindingFactors() // Stored in initClient
       const realAnswerArray = ResultsRetrievalUtil.resultsRetrieval(SMALL_PRIME_NUMBER, LARGE_PRIME_NUMBER, MAXIMUM_LOAD, NUMBER_OF_BINS, vectorX, blindingFactors, hashedAttributes, qPrimeMatrix, qPrimePrimeMatrix)
       const finalResult = HashUtil.hashToNameAndNumber(attributes, realAnswerArray)
-      this.appState.completePsi(finalResult)
+      this.appState.completePsi(finalResult, { qPrimeMatrix, qPrimePrimeMatrix })
     }
 
-    getIntersectionResult () : {name: string, number: number}[] | 'isPending' | void {
+    getIntersectionResult () : { timeTaken: number, resultsRetrievalReq:{qPrimeMatrix: any, qPrimePrimeMatrix: any}, intersectionResult: { name: string, number: number }[]
+    } | 'isPending' | void {
       return this.appState.getIntersectionResult()
     }
 

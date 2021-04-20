@@ -64,8 +64,13 @@ class ClientService {
       this.appState.completePsi(finalResult)
     }
 
-    getIntersectionResult () : {name: string, number: number}[] | 'isPending' | void {
+    getIntersectionResult () : { timeTaken: number, intersectionResult: { name: string, number: number }[]
+    } | 'isPending' | void {
       return this.appState.getIntersectionResult()
+    }
+
+    getAttributes () : {name: string, number: number}[] | void {
+      return this.clientDA.getAttributes()
     }
 }
 
