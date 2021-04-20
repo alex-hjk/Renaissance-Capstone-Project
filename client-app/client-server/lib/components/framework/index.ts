@@ -13,11 +13,12 @@ import CloudCommunicator from '../communicators/CloudCommunicator'
 import { Container } from 'typedi'
 import MarshallerUtil from '../communicators/Util/MarshallerUtil'
 import CloudUrlCache from '../communicators/Cache/CloudUrlCache'
+import generateRandomNameAndNumbers from './TestDataUtil'
 
 const router = express.Router()
 
 const initServices = () => {
-  const appState = Container.get(AppState) // Singleton instance to control the app state
+  const appState = Container.get(AppState) // Singleton instance to control the app pendingState
   const cloudUrlCache = Container.get(CloudUrlCache) // Singleton instance to set the cloud url
   const clientDBInstance = Container.get(ClientMemDB) // Singleton instance to persist storage
   const cloudCommunicator = new CloudCommunicator(cloudUrlCache)
@@ -34,12 +35,17 @@ const setCloudUrl = (cloudUrl: string) => {
 
 router.post('/initClient', async (req, res) => {
   try {
-    const { masterKey, attributes, clientID, cloudUrl } = req.body
+    const { masterKey, clientID, cloudUrl, testSize } = req.body
+    let { attributes } = req.body
+    // testSize is accepted if we want to test more attributes
+    if (testSize) {
+      attributes = generateRandomNameAndNumbers(testSize)
+    }
     setCloudUrl(cloudUrl)
     const clientController = initServices()
     const clientIP = `http://${GetIpAddressUtil.getPrivateIpAndPort()}/api/psi`
     clientController.initClient({ masterKey, attributes, clientID, clientIP }).then((result: any) => {
-      res.status(200).json({ ok: true, message: 'client initiated' })
+      res.status(200).json({ ok: true, message: 'client initiated', blindedVectors: MarshallerUtil.marshallObject(result) })
     }).catch(e => {
       res.status(500).json({ ok: false, message: e.message })
     })
@@ -76,7 +82,8 @@ router.post('/resultsRetrieval', async (req, res) => {
   try {
     const clientController = initServices()
     const { qPrimeMatrix, qPrimePrimeMatrix } = req.body
-    clientController.resultsRetrieval({ qPrimeMatrix: MarshallerUtil.unmarshallMatrix(qPrimeMatrix), qPrimePrimeMatrix: MarshallerUtil.unmarshallMatrix(qPrimePrimeMatrix) }).then((result:any) => {
+    const request = { qPrimeMatrix: MarshallerUtil.unmarshallMatrix(qPrimeMatrix), qPrimePrimeMatrix: MarshallerUtil.unmarshallMatrix(qPrimePrimeMatrix) }
+    clientController.resultsRetrieval(request).then((result:any) => {
       res.status(200).json({ ok: true, message: 'Result Retrieval Completed' })
     })
   } catch (e) {
@@ -87,10 +94,14 @@ router.post('/resultsRetrieval', async (req, res) => {
 router.get('/getIntersectionResult', async (req, res) => {
   try {
     const clientController = initServices()
-    const intersectionResult : {name: string, number: number}[] | 'isPending' | void = clientController.getIntersectionResult() // Can be void
+    const intersectionResult : { intersectionResult: { name: string, number: number }[], resultsRetrievalReq:{ qPrimeMatrix: any, qPrimePrimeMatrix: any }, timeTaken: number }| 'isPending' | void = clientController.getIntersectionResult() // Can be void
     const status = intersectionResult === 'isPending' ? 'pending' : 'completed or error occured'
     const result = (intersectionResult && intersectionResult !== 'isPending') ? intersectionResult : undefined
-    res.status(200).json({ status, intersectionResult: result })
+    if (result && result.resultsRetrievalReq) {
+      result.resultsRetrievalReq.qPrimeMatrix = MarshallerUtil.marshallObject(result.resultsRetrievalReq.qPrimeMatrix)
+      result.resultsRetrievalReq.qPrimePrimeMatrix = MarshallerUtil.marshallObject(result.resultsRetrievalReq.qPrimePrimeMatrix)
+    }
+    res.status(200).json({ status, ...result })
   } catch (e) {
     res.status(500).json({ ok: false, message: e.message })
   }

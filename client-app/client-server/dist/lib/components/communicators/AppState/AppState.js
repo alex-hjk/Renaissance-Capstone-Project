@@ -10,18 +10,22 @@ const typedi_1 = require("typedi");
 let AppState = class AppState {
     initPsi() {
         this.isPending = true;
+        this.timeStarted = Date.now();
+        this.timeEnded = undefined;
         this.intersectionResult = undefined;
     }
-    completePsi(intersectionResult) {
+    completePsi(intersectionResult, resultsRetrievalReq) {
         this.isPending = false;
         this.intersectionResult = intersectionResult;
+        this.timeEnded = Date.now();
+        this.resultsRetrievalReq = resultsRetrievalReq;
     }
     getIntersectionResult() {
         if (this.isPending) {
             return 'isPending';
         }
-        else if (this.intersectionResult) {
-            return this.intersectionResult;
+        else if (this.intersectionResult && this.timeEnded && this.timeStarted && this.resultsRetrievalReq) {
+            return { intersectionResult: this.intersectionResult, timeTaken: this.timeEnded - this.timeStarted, resultsRetrievalReq: this.resultsRetrievalReq };
         }
     }
 };

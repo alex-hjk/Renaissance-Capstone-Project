@@ -14,6 +14,7 @@ const CloudCommunicator_1 = __importDefault(require("../communicators/CloudCommu
 const typedi_1 = require("typedi");
 const MarshallerUtil_1 = __importDefault(require("../communicators/Util/MarshallerUtil"));
 const CloudUrlCache_1 = __importDefault(require("../communicators/Cache/CloudUrlCache"));
+const TestDataUtil_1 = __importDefault(require("./TestDataUtil"));
 const router = express_1.default.Router();
 const initServices = () => {
     const appState = typedi_1.Container.get(AppState_1.default);
@@ -31,12 +32,16 @@ const setCloudUrl = (cloudUrl) => {
 };
 router.post('/initClient', async (req, res) => {
     try {
-        const { masterKey, attributes, clientID, cloudUrl } = req.body;
+        const { masterKey, clientID, cloudUrl, testSize } = req.body;
+        let { attributes } = req.body;
+        if (testSize) {
+            attributes = TestDataUtil_1.default(testSize);
+        }
         setCloudUrl(cloudUrl);
         const clientController = initServices();
         const clientIP = `http://${GetIpAddressUtil_1.default.getPrivateIpAndPort()}/api/psi`;
         clientController.initClient({ masterKey, attributes, clientID, clientIP }).then((result) => {
-            res.status(200).json({ ok: true, message: 'client initiated' });
+            res.status(200).json({ ok: true, message: 'client initiated', blindedVectors: MarshallerUtil_1.default.marshallObject(result) });
         }).catch(e => {
             res.status(500).json({ ok: false, message: e.message });
         });
@@ -73,7 +78,8 @@ router.post('/resultsRetrieval', async (req, res) => {
     try {
         const clientController = initServices();
         const { qPrimeMatrix, qPrimePrimeMatrix } = req.body;
-        clientController.resultsRetrieval({ qPrimeMatrix: MarshallerUtil_1.default.unmarshallMatrix(qPrimeMatrix), qPrimePrimeMatrix: MarshallerUtil_1.default.unmarshallMatrix(qPrimePrimeMatrix) }).then((result) => {
+        const request = { qPrimeMatrix: MarshallerUtil_1.default.unmarshallMatrix(qPrimeMatrix), qPrimePrimeMatrix: MarshallerUtil_1.default.unmarshallMatrix(qPrimePrimeMatrix) };
+        clientController.resultsRetrieval(request).then((result) => {
             res.status(200).json({ ok: true, message: 'Result Retrieval Completed' });
         });
     }
@@ -87,7 +93,11 @@ router.get('/getIntersectionResult', async (req, res) => {
         const intersectionResult = clientController.getIntersectionResult();
         const status = intersectionResult === 'isPending' ? 'pending' : 'completed or error occured';
         const result = (intersectionResult && intersectionResult !== 'isPending') ? intersectionResult : undefined;
-        res.status(200).json({ status, intersectionResult: result });
+        if (result && result.resultsRetrievalReq) {
+            result.resultsRetrievalReq.qPrimeMatrix = MarshallerUtil_1.default.marshallObject(result.resultsRetrievalReq.qPrimeMatrix);
+            result.resultsRetrievalReq.qPrimePrimeMatrix = MarshallerUtil_1.default.marshallObject(result.resultsRetrievalReq.qPrimePrimeMatrix);
+        }
+        res.status(200).json({ status, ...result });
     }
     catch (e) {
         res.status(500).json({ ok: false, message: e.message });

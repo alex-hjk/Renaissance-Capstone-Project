@@ -55,6 +55,14 @@ router.post('/resultsComputation', async (req, res) => {
   res.status(200).send({ message: 'Results computation complete' })
 })
 
+router.post('/updateNumBins', async (req, res) => {
+  const { numBins } = req.body
+  const cloudControllerInstance = initClient()
+
+  cloudControllerInstance.updateNumBins({ numBins })
+  res.status(200).send({ message: 'Num Bins Updated' })
+})
+
 router.get('/getRegisteredClients', (req, res) => {
   try {
     const cloudControllerInstance = initClient()

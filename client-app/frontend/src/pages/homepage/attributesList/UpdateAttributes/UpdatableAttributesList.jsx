@@ -4,7 +4,7 @@ import {
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import generateRandomNameAndNumbers from './TestDataUtil';
-import ListItem from '../ListItem';
+import ListItem from '../../../../shared/components/ListItem';
 import useEndpoints from '../../../../shared/hooks/useEndpoints';
 import AddAttributesForm from './AddAttributesForm';
 
@@ -36,21 +36,20 @@ const UpdatableAttributesList = ({ setOpen }) => {
             attributes.map(({ name, number }) => <ListItem key={`${name}+ ${number}`} number={number} name={name} />)
           }
         </Paper>
-        <Grid item xs={12} style={{ width: '100%', marginTop: '8px' }}>
+        <Grid item xs={12} style={{ width: '100%', marginTop: '8px', marginBottom: '20px' }}>
           <AddAttributesForm addAttribute={addAttribute} />
         </Grid>
-        <Grid item container xs={12} justify="center" style={{ margin: '12px 0' }}>
-          <Button color="secondary" variant="contained" onClick={() => generateTestData(numTestAttr)} size="small">
-            Populate with test attributes
-          </Button>
-          <TextField label="number of attributes" style={{ marginLeft: '12px' }} value={numTestAttr} onChange={(event) => { setNumTestAttr(event.target.value); }} />
-        </Grid>
-        <Grid item container xs={12} justify="center" style={{ margin: '12px 0' }}>
+        <Grid item container xs={12} justify="center" style={{ margin: '12px 0', marginBottom: '100px' }}>
           <Button color="primary" variant="contained" onClick={handleInitClient}>
             Submit
           </Button>
         </Grid>
-
+        <Grid item container xs={12} justify="center" style={{ margin: '12px 0' }}>
+          <Button variant="contained" onClick={() => generateTestData(numTestAttr)} size="small">
+            Simulate Data Import
+          </Button>
+          <TextField label="number of attributes" style={{ marginLeft: '12px' }} value={numTestAttr} onChange={(event) => { setNumTestAttr(event.target.value); }} />
+        </Grid>
       </Grid>
 
     </>

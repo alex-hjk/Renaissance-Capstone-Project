@@ -13,13 +13,13 @@ const AddAttributesForm = ({ addAttribute }) => {
   return (
     <Grid container>
       <Grid item xs={5}>
-        <TextField label="name" value={name} onChange={(event) => setName(event.target.value)} />
+        <TextField label="Name" value={name} onChange={(event) => setName(event.target.value)} />
       </Grid>
       <Grid item xs={5}>
-        <TextField label="number" value={number} onChange={(event) => { setNumber(event.target.value); }} />
+        <TextField label="Phone Number" value={number} onChange={(event) => { setNumber(event.target.value); }} />
       </Grid>
       <Grid container item xs={2} alignItems="center" justify="center">
-        <Button onClick={handleAddAttribute}>
+        <Button variant="contained" onClick={handleAddAttribute}>
           Add
         </Button>
       </Grid>

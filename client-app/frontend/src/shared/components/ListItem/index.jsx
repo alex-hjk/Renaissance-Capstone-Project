@@ -5,6 +5,7 @@ import { makeStyles, Grid } from '@material-ui/core';
 const useStyles = makeStyles(() => ({
   root: {
     padding: '10px',
+    borderBottom: '1px solid rgba(100,100,100,0.2)',
   },
 }));
 
@@ -24,7 +25,10 @@ const ListItem = ({ name, number }) => {
 
 ListItem.propTypes = {
   name: PropTypes.string.isRequired,
-  number: PropTypes.number.isRequired,
+  number: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
 };
 
 export default ListItem;
