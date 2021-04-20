@@ -38,7 +38,7 @@ const IntermediateAttributes = () => {
           </Paper>
         </Grid>
         <Grid item xs={12}>
-          <Paper>
+          <Paper className={classes.container}>
             <Typography>
               Cloud to Client:
             </Typography>
