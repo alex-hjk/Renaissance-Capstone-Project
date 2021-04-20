@@ -30,7 +30,7 @@ const useEndpoints = () => {
   const initClient = useCallback((attributes, callback) => {
     const url = `${clientUrl}/initClient`;
     const data = {
-      attributes, masterKey, clientID, cloudUrl,
+      attributes, masterKey, clientID, cloudUrl, clientUrl
     };
     const config = {
       url,
