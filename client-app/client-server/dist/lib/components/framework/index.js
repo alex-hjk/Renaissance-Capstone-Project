@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const AppState_1 = __importDefault(require("../communicators/AppState/AppState"));
-const GetIpAddressUtil_1 = __importDefault(require("./GetIpAddressUtil"));
 const controller_1 = __importDefault(require("../../application/controller"));
 const service_1 = __importDefault(require("../../application/service"));
 const memDB_1 = __importDefault(require("../../application/db/memDB"));
@@ -32,14 +31,14 @@ const setCloudUrl = (cloudUrl) => {
 };
 router.post('/initClient', async (req, res) => {
     try {
-        const { masterKey, clientID, cloudUrl, testSize } = req.body;
+        const { masterKey, clientID, cloudUrl, testSize, clientUrl } = req.body;
         let { attributes } = req.body;
         if (testSize) {
             attributes = TestDataUtil_1.default(testSize);
         }
         setCloudUrl(cloudUrl);
         const clientController = initServices();
-        const clientIP = `http://${GetIpAddressUtil_1.default.getPrivateIpAndPort()}/api/psi`;
+        const clientIP = clientUrl;
         clientController.initClient({ masterKey, attributes, clientID, clientIP }).then((result) => {
             res.status(200).json({ ok: true, message: 'client initiated', blindedVectors: MarshallerUtil_1.default.marshallObject(result) });
         }).catch(e => {

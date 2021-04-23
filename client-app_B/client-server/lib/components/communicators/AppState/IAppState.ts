@@ -3,10 +3,10 @@ declare class IAppState {
   initPsi(): void;
 
   // sets isPending lock to false
-  completePsi (intersectionResult?: {name: string, number: number}[]): void;
+  completePsi (intersectionResult?: {name: string, number: number}[], resultsRetrievalReq?: {qPrimeMatrix: any, qPrimePrimeMatrix: any}) : void;
 
   // returns the current pendingState of the app. If app is not pending, return void
-  getIntersectionResult () : { timeTaken: number, intersectionResult: { name: string, number: number }[]
+  getIntersectionResult () : { timeTaken: number, resultsRetrievalReq:{qPrimeMatrix: any, qPrimePrimeMatrix: any}, intersectionResult: { name: string, number: number }[]
   } | 'isPending' | void
 }
 
