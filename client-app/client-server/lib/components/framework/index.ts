@@ -44,7 +44,7 @@ router.post('/initClient', async (req, res) => {
     setCloudUrl(cloudUrl)
     const clientController = initServices()
     // const clientIP = `http://${GetIpAddressUtil.getPrivateIpAndPort()}/api/psi`
-    const clientIP = `http://${clientUrl}/api/psi`
+    const clientIP = clientUrl
     clientController.initClient({ masterKey, attributes, clientID, clientIP }).then((result: any) => {
       res.status(200).json({ ok: true, message: 'client initiated', blindedVectors: MarshallerUtil.marshallObject(result) })
     }).catch(e => {
